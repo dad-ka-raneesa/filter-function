@@ -1,23 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "filter.h"
 
-typedef struct
+Int_Array *create_dynamic_array(int length)
 {
-  int length;
-  int *values;
-} Dynamic_Array;
-
-Dynamic_Array *create_dynamic_array(int length)
-{
-  Dynamic_Array *array = malloc(sizeof(Dynamic_Array));
+  Int_Array *array = malloc(sizeof(Int_Array));
   array->length = 0;
   array->values = malloc(sizeof(int) * length);
   return array;
 }
 
-Dynamic_Array *create_copy_of_array(Dynamic_Array *evens, int length)
+Int_Array *create_copy_of_array(Int_Array *evens, int length)
 {
-  Dynamic_Array *copy = create_dynamic_array(length);
+  Int_Array *copy = create_dynamic_array(length);
   for (int i = 0; i < length; i++)
   {
     copy->values[i] = evens->values[i];
@@ -27,9 +22,9 @@ Dynamic_Array *create_copy_of_array(Dynamic_Array *evens, int length)
   return copy;
 }
 
-Dynamic_Array *filter_even(int *numbers, int length)
+Int_Array *filter_even(int *numbers, int length)
 {
-  Dynamic_Array *evens = create_dynamic_array(length);
+  Int_Array *evens = create_dynamic_array(length);
   for (int index = 0; index < length; index++)
   {
     if (numbers[index] % 2 == 0)
@@ -41,30 +36,12 @@ Dynamic_Array *filter_even(int *numbers, int length)
   return create_copy_of_array(evens, evens->length);
 }
 
-int main(void)
+void display_int_array(Int_Array array)
 {
-  int length;
-
-  printf("Enter the amount of numbers :");
-  scanf("%d", &length);
-
-  int *values = malloc(sizeof(int) * length);
-
-  for (int i = 0; i < length; i++)
-  {
-    printf("Enter number %02d:", i + 1);
-    scanf("%d", (values + i));
-  }
-
-  Dynamic_Array *evens_list = filter_even(values, length);
-
   printf("\nEven Numbers :\n");
-  for (int index = 0; index < (evens_list->length); index++)
+  for (size_t i = 0; i < array.length; i++)
   {
-    printf("%d\n", evens_list->values[index]);
+    printf("%d ", array.values[i]);
   }
-
-  free(values);
-  free(evens_list);
-  return 0;
+  printf("\n");
 }
